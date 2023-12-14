@@ -36,7 +36,7 @@ tutorRouter.get('/availability',auth, async (req, res) => {
 
     const tutor = await TutorModel.findOne({tutorId:tutorID})
 
-    if(Userid == tutorID){
+    if(Userid == tutor.tutorID){
         await TutorModel.findByIdAndUpdate({tutorId:tutorID})
         res.send("tutor updated successfully")
     }else{
