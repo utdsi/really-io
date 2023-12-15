@@ -16,6 +16,9 @@ const {doubtRouter} = require("./route/doubt.route")
 const {tutorRouter} = require("./route/tutor.route")
 
 
+require('dotenv').config()
+
+
 app.use("/",userRouter)
 app.use("/doubt",doubtRouter)
 app.use("/tutor",tutorRouter)
@@ -28,7 +31,7 @@ app.get("/", (req,res)=>{
     
 })
 
-app.listen(3000,async ()=>{
+app.listen(process.env.port,async ()=>{
 
     try {
         await connection
