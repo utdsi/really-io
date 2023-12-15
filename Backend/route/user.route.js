@@ -73,7 +73,7 @@ userRouter.post("/logout",async(req,res)=>{
 
         blacklist.push(token)
         fs.writeFileSync("./blacklist.json",JSON.stringify(blacklist))
-        res.send("logout successfull")
+        res.send({"msg":"logout successfull"})
         
     } catch (error) {
         console.log(error)

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Signup</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="form-container">
+            <form id="signupForm" class="form">
+                <h2>Signup</h2>
+                <label for="username">Username:</label>
+                <input type="text" id="signupUsername" name="username" required>
+
+                <label for="userType">User Type:</label>
+                <select id="signupUserType" name="userType" required>
+                    <option value="Student">Student</option>
+                    <option value="Tutor">Tutor</option>
+                </select>
+
+                <label for="userLanguage">User Language:</label>
+                <input type="text" id="signupUserLanguage" name="userLanguage" required>
+
+                <label for="subjectExpertise">Subject Expertise:</label>
+                <input type="text" id="signupSubjectExpertise" name="subjectExpertise" disabled>
+
+                <label for="classGrade">Class Grade:</label>
+                <input type="text" id="signupClassGrade" name="classGrade" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="signupEmail" name="email" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="signupPassword" name="password" required>
+
+                <button type="submit">Signup</button>
+            </form>
+        </div>
+    </div>
+
+    
+</body>
+
+</html>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const signupForm = document.getElementById('signupForm');
+        const subjectExpertiseInput = document.getElementById('signupSubjectExpertise');
+        const userTypeSelect = document.getElementById('signupUserType');
+
+        userTypeSelect.addEventListener('change', function () {
+            // Enable or disable subject expertise based on user type
+            subjectExpertiseInput.disabled = (userTypeSelect.value === 'Student');
+            // Clear subject expertise value if disabled
+            if (userTypeSelect.value === 'Student') {
+                subjectExpertiseInput.value = '';
+            }
+        });
+
+        signupForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const username = document.getElementById('signupUsername').value;
+            const userType = document.getElementById('signupUserType').value;
+            const userLanguage = document.getElementById('signupUserLanguage').value;
+            const subjectExpertise = document.getElementById('signupSubjectExpertise').value;
+            const classGrade = document.getElementById('signupClassGrade').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+
+            // Implement signup logic here (e.g., make an API request)
+            // console.log('Signup:', { username, userType, userLanguage, subjectExpertise, classGrade, email, password });
+
+            if (subjectExpertise == "") {
+                var obj = { username, userType, userLanguage, classGrade, email, password }
+            } else {
+                var obj = { username, userType, userLanguage, subjectExpertise, classGrade, email, password }
+            }
+
+            fetch_sign(obj)
+        });
+    });
+
+    async function fetch_sign(obj) {
+
+        try {
+            let response = await fetch(`https://weak-duck-pantsuit.cyclic.app/register`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "Application/json",
+                },
+                body: JSON.stringify(obj),
+            });
+            if (response.ok) {
+                localStorage.clear();
+                let ans = await response.json();
+                if (ans.msg === "signup successful") {
+                    alert("signup successfull")
+                    window.location.href = "./login.html";
+                }
+
+
+            }
+        } catch (error) {
+            console.log(error);
+
+        }
+
+    }
+</script>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Content of your tutor page -->
+    <h1>Tutor Page</h1>
+    <!DOCTYPE html>
+    <html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles.css">
+        <title>Student Doubt History</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: #f4f4f4;
+            }
+    
+            button {
+                padding: 10px;
+                background-color: #007bff;
+                color: #fff;
+                cursor: pointer;
+            }
+    
+            .container {
+                width: 80%;
+                max-width: 800px;
+                text-align: center;
+                margin-top: 20px;
+            }
+    
+            h1 {
+                color: #333;
+            }
+    
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+    
+            thead {
+                background-color: #3498db;
+                color: #fff;
+            }
+    
+            th,
+            td {
+                padding: 12px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+    
+            tbody tr:hover {
+                background-color: #f5f5f5;
+            }
+        </style>
+    </head>
+    
+    <body>
+    
+        <div class="container">
+            <button id="backButton">Logout</button>
+            <h1>Student Doubt History</h1>
+            <table id="doubtHistoryTable">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Doubt Subject</th>
+                        <th>Doubt Details</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+    
+       
+    </body>
+    
+    </html>
+    
+    <script>
+      
+    
+            const data = get_doubt()
+    
+            const doubtHistoryTable = document.getElementById('doubtHistoryTable').getElementsByTagName('tbody')[0];
+    
+            // Function to populate the doubt history table
+            function populateDoubtHistoryTable(doubtHistory) {
+                doubtHistoryTable.innerHTML = '';
+    
+                doubtHistory.forEach((doubt, index) => {
+                    const row = doubtHistoryTable.insertRow();
+                    const sNoCell = row.insertCell(0);
+                    const doubtSubjectCell = row.insertCell(1);
+                    const doubtDetailsCell = row.insertCell(2);
+                    const timestampCell = row.insertCell(3);
+    
+                    sNoCell.textContent = index + 1;
+                    doubtSubjectCell.textContent = doubt.doubtSubject;
+                    doubtDetailsCell.textContent = doubt.doubtDetails;
+                    timestampCell.textContent = new Date(doubt.timestamp).toLocaleString();
+                });
+            }
+    
+            // Populate the table with dummy data (replace with actual data retrieval logic)
+            populateDoubtHistoryTable(data);
+       
+    
+        async function get_doubt() {
+            try {
+    
+                const token = JSON.parse(localStorage.getItem("token"))
+                const userid = JSON.parse(localStorage.getItem("userid"))
+    
+                let response = await fetch(`https://weak-duck-pantsuit.cyclic.app/doubt/`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "Application/json",
+                        "Authorization": `${token}`
+                    }
+    
+                });
+    
+                let data = await response.json()
+    
+                return data
+    
+            }
+            catch (error) {
+    
+            }
+        }
+    
+        document.getElementById("backButton").addEventListener("click", async function () {
+            
+            // try {
+            // let token = JSON.parse(localStorage.getItem("token"));
+            // let response = await fetch("https://weak-duck-pantsuit.cyclic.app/logout", { 
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "Applicatiion/json",
+            //         Authorization: token
+            //     }
+            // });
+            // if (response.ok) {
+            //     let ans = await response.json();
+                localStorage.setItem("userid", null);
+                localStorage.setItem("token", null);
+                localStorage.clear();
+                
+                
+
+                window.location.href = "./login.html"
+        //     }
+        // } catch (error) {
+        //     console.log(error);
+        // }
+        });
+    
+    </script>

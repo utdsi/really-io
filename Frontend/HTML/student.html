@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Student Doubt Submission</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <button id="backButton">Logout</button>
+        <h1>Student Doubt Submission</h1>
+
+        <form id="doubtForm" class="form">
+            <label for="doubtSubject">Doubt Subject:</label>
+            <input type="text" id="doubtSubject" name="doubtSubject" required>
+
+            <label for="doubtDetails">Doubt Details:</label>
+            <textarea id="doubtDetails" name="doubtDetails" rows="4" required></textarea>
+
+            <button type="submit">Submit Doubt</button>
+        </form>
+        <br>
+        <br>
+
+        <a href="./studenthistory.html" class="button">View Doubt History</a>
+  </div>
+    </div>
+
+    
+</body>
+
+</html>
+<script>
+
+    
+        const doubtForm = document.getElementById('doubtForm');
+
+        doubtForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const doubtSubject = document.getElementById('doubtSubject').value;
+            const doubtDetails = document.getElementById('doubtDetails').value;
+
+            
+            let obj={doubtSubject,doubtDetails}
+
+            post_doubt(obj)
+        });
+   
+    async function post_doubt(obj) {
+        try {
+
+            const token = JSON.parse(localStorage.getItem("token"))
+
+            let response = await fetch(`https://weak-duck-pantsuit.cyclic.app/doubt/create`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "Application/json",
+                    "Authorization": token
+                },
+                body: JSON.stringify(obj),
+            });
+            if (response.ok) {
+                let result = await response.json();
+                console.log(result)
+                
+
+                    alert("doubt created success")
+                
+                    
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    document.getElementById("backButton").addEventListener("click", async function () {
+            
+            // try {
+            // let token = JSON.parse(localStorage.getItem("token"));
+            // let response = await fetch("https://weak-duck-pantsuit.cyclic.app/logout", { 
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "Applicatiion/json",
+            //         Authorization: token
+            //     }
+            // });
+            // if (response.ok) {
+            //     let ans = await response.json();
+                localStorage.setItem("userid", null);
+                localStorage.setItem("token", null);
+                localStorage.clear();
+                
+                
+
+                window.location.href = "./login.html"
+           // }
+        // } catch (error) {
+        //     console.log(error);
+        // }
+        });
+
+</script>

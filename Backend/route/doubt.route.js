@@ -41,7 +41,7 @@ doubtRouter.post("/create", auth, async (req, res) => {
     try {
         const new_doubt = new DoubtModel(payload)
         await new_doubt.save()
-        res.status(200).send("doubt created successfully")
+        res.status(200).send({"msg":"doubt created successfully"})
     } catch (error) {
         throw error
         res.status(500).json({ message: 'Internal Server Error' });
