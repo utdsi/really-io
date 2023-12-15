@@ -18,7 +18,7 @@ const {tutorRouter} = require("./route/tutor.route")
 
 app.use("/",userRouter)
 app.use("/doubt",doubtRouter)
-app.use("/",tutorRouter)
+app.use("/tutor",tutorRouter)
 
 
 app.get("/", (req,res)=>{
